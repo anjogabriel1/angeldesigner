@@ -1,12 +1,15 @@
-// FADE-IN AO ROLAR (sempre que entrar ou sair)
+// MENU HAMBURGER
+const menuToggle = document.getElementById('menuToggle');
+const navUl       = document.querySelector('nav ul');
+menuToggle.addEventListener('click', () => {
+  navUl.classList.toggle('open');
+});
+
+// FADE-IN AO ROLAR
 const faders = document.querySelectorAll('.fade-in');
 const appearOnScroll = new IntersectionObserver(entries => {
   entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('active');
-    } else {
-      entry.target.classList.remove('active');
-    }
+    entry.target.classList.toggle('active', entry.isIntersecting);
   });
 }, { threshold: 0.2 });
 faders.forEach(fader => appearOnScroll.observe(fader));
@@ -18,7 +21,7 @@ window.addEventListener('scroll', () => {
   let current = '';
   sections.forEach(sec => {
     const top = sec.offsetTop - 150;
-    if (pageYOffset >= top) current = sec.getAttribute('id');
+    if (window.pageYOffset >= top) current = sec.id;
   });
   navLinks.forEach(link => {
     link.classList.toggle('active', link.getAttribute('href').includes(current));
@@ -74,33 +77,79 @@ document.querySelectorAll('.contador').forEach(el => {
   update();
 });
 
+// SLIDER DE BANNERS (DRAG & AUTO-SLIDE)
+const slides = document.getElementById('slides');
+let isDrag = false, startX, scrollStart;
+
+// Mouse
+slides.addEventListener('mousedown', e => {
+  isDrag = true;
+  slides.classList.add('dragging');
+  startX = e.pageX - slides.offsetLeft;
+  scrollStart = slides.scrollLeft;
+});
+slides.addEventListener('mouseup', () => {
+  isDrag = false;
+  slides.classList.remove('dragging');
+});
+slides.addEventListener('mouseleave', () => {
+  isDrag = false;
+  slides.classList.remove('dragging');
+});
+slides.addEventListener('mousemove', e => {
+  if (!isDrag) return;
+  e.preventDefault();
+  const x = e.pageX - slides.offsetLeft;
+  const walk = (x - startX) * 1.5;
+  slides.scrollLeft = scrollStart - walk;
+});
+
+// Touch
+slides.addEventListener('touchstart', e => {
+  isDrag = true;
+  startX = e.touches[0].pageX - slides.offsetLeft;
+  scrollStart = slides.scrollLeft;
+});
+slides.addEventListener('touchend', () => {
+  isDrag = false;
+});
+slides.addEventListener('touchmove', e => {
+  if (!isDrag) return;
+  const x = e.touches[0].pageX - slides.offsetLeft;
+  const walk = (x - startX) * 1.5;
+  slides.scrollLeft = scrollStart - walk;
+});
+
+// Auto‐slide
+let slideIndex = 0;
+const totalSlides = slides.children.length;
+setInterval(() => {
+  slideIndex = (slideIndex + 1) % totalSlides;
+  const target = slides.children[slideIndex].offsetLeft;
+  slides.scrollTo({ left: target, behavior: 'smooth' });
+}, 4000);
+
 // PAGINAÇÃO E SELEÇÃO DE MODELOS (12 por página)
 const TOTAL_MODELOS = 102;
 const POR_PAGINA    = 12;
 let paginaAtual     = 1;
 const totalPaginas  = Math.ceil(TOTAL_MODELOS / POR_PAGINA);
-
-const modelosGrid  = document.getElementById('modelosGrid');
-const paginacaoDiv = document.getElementById('paginacao');
+const modelosGrid   = document.getElementById('modelosGrid');
+const paginacaoDiv  = document.getElementById('paginacao');
 
 function renderizarPagina(page) {
   modelosGrid.innerHTML = '';
   const start = (page - 1) * POR_PAGINA + 1;
   const end   = Math.min(page * POR_PAGINA, TOTAL_MODELOS);
-
   for (let i = start; i <= end; i++) {
-    const filename = `img/${i}.jpg`;
     const card = document.createElement('div');
     card.className = 'modelo-card';
-
     const img = document.createElement('img');
-    img.src     = filename;
-    img.alt     = `Modelo ${i}`;
+    img.src = `img/${i}.jpg`;
+    img.alt = `Modelo ${i}`;
     img.loading = 'lazy';
-
     const title = document.createElement('h4');
     title.innerText = `Modelo ${i}`;
-
     const overlay = document.createElement('div');
     overlay.className = 'overlay';
     const btnSel = document.createElement('button');
@@ -110,11 +159,9 @@ function renderizarPagina(page) {
       window.open(`https://wa.me/5573981851661?text=${msg}`, '_blank');
     });
     overlay.appendChild(btnSel);
-
     card.append(img, title, overlay);
     modelosGrid.appendChild(card);
   }
-
   renderizarPaginacao(page);
 }
 
