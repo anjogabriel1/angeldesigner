@@ -1,0 +1,188 @@
+/* GERAL */
+body {
+  font-family: 'Roboto', sans-serif;
+  margin: 0; background: #f7f7f7; color: #333;
+  scroll-behavior: smooth;
+}
+h1,h2,h3,h4 { font-family: 'Montserrat', sans-serif; }
+section { padding: 60px 10%; max-width:1200px; margin:auto; }
+.skip-link {
+  position:absolute; top:-40px; left:10px;
+  background:#000; color:#fff; padding:8px; z-index:100;
+  transition:top .3s;
+}
+.skip-link:focus { top:10px; }
+
+/* MENU FIXO */
+nav {
+  position:fixed; top:0; width:100%;
+  background:rgba(255,255,255,0.95);
+  box-shadow:0 2px 10px rgba(0,0,0,0.1); z-index:1000;
+}
+nav ul { display:flex; justify-content:center; list-style:none; margin:0; padding:10px 0; }
+nav ul li { margin:0 15px; }
+nav ul li a {
+  color:#333; text-decoration:none; font-weight:bold;
+}
+nav ul li a.active,
+nav ul li a:hover { color:#f4a300; }
+
+/* BOTÃO VOLTAR AO TOPO */
+.top-btn {
+  position:fixed; bottom:30px; right:30px;
+  background:#f4a300; color:#fff; border:none;
+  border-radius:50%; padding:12px; font-size:1.2em;
+  cursor:pointer; display:none; box-shadow:0 4px 10px rgba(0,0,0,0.3);
+}
+.top-btn.show { display:block; }
+
+/* HERO */
+.hero {
+  display:flex; justify-content:space-between; align-items:center;
+  background:#fff; border-radius:10px; margin-top:60px;
+}
+.hero-content { max-width:50%; }
+.hero-logo { width:100px; margin-bottom:20px; }
+.hero-image img {
+  width:300px; border-radius:20px;
+  box-shadow:0 10px 20px rgba(0,0,0,0.2);
+}
+
+/* BOTÕES */
+.btn, .btn-cta {
+  background:#f4a300; color:#fff; padding:10px 20px;
+  border-radius:5px; text-decoration:none; font-weight:bold;
+  transition:background .3s;
+}
+.btn:hover, .btn-cta:hover { background:#d48806; }
+
+/* BENEFÍCIOS */
+.beneficios { display:flex; gap:20px; text-align:center; }
+.beneficio-card {
+  background:#fff9e6; border:1px solid #f4a300;
+  padding:20px; border-radius:10px; flex:1;
+}
+.beneficio-card img { width:50px; margin-bottom:10px; }
+
+/* MODELOS */
+.modelos-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
+  gap:20px;
+}
+.modelo-card {
+  background:#fff; padding:10px; border-radius:10px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.1); text-align:center;
+  position:relative; overflow:hidden; cursor:pointer;
+  transition:transform .3s,box-shadow .3s;
+}
+.modelo-card:hover {
+  transform:translateY(-5px) scale(1.02);
+  box-shadow:0 8px 20px rgba(0,0,0,0.2);
+}
+.modelo-card img { width:100%; border-radius:10px; }
+
+/* overlay “Selecionar” */
+.modelo-card .overlay {
+  position:absolute; top:0; left:0; width:100%; height:100%;
+  background:rgba(0,0,0,0.6); display:flex; align-items:center;
+  justify-content:center; opacity:0; transition:opacity .3s;
+}
+.modelo-card:hover .overlay { opacity:1; }
+.modelo-card .overlay button {
+  background:#25D366; border:none; color:#fff; padding:10px 20px;
+  font-size:1em; border-radius:5px; cursor:pointer;
+}
+
+/* PAGINAÇÃO */
+.paginacao { text-align:center; margin-top:20px; }
+.paginacao button {
+  background:#fff; border:1px solid #ccc; margin:0 5px;
+  padding:5px 10px; cursor:pointer; transition:background .2s;
+}
+.paginacao button.active {
+  background:#f4a300; color:#fff; border-color:#f4a300;
+}
+.paginacao button:hover { background:#eee; }
+
+/* FEEDBACKS */
+.feedback-list { display:flex; flex-direction:column; gap:20px; }
+.feedback-card {
+  display:flex; align-items:flex-start; background:#fff;
+  padding:15px; border-radius:10px; box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+.feedback-photo {
+  width:60px; height:60px; border-radius:50%; margin-right:15px;
+  object-fit:cover;
+}
+.feedback-hidden { display:none; }
+
+/* CHAMADA */
+.chamada {
+  background:#fff9e6; text-align:center; padding:50px 20px;
+  border-radius:10px; margin:40px auto; max-width:700px;
+}
+.avaliacao { display:flex; justify-content:center; gap:10px; margin-bottom:15px; }
+.google-logo { height:24px; }
+.nota {
+  background:#e6f0ff; padding:3px 8px; border-radius:20px;
+  font-size:.85em; font-weight:bold;
+}
+.estrelas { color:#f4a300; font-size:1.2em; }
+
+/* CONTADORES */
+.contadores {
+  display:flex; justify-content:space-around; text-align:center;
+  margin:50px 0;
+}
+.contador { font-size:2.5em; font-weight:bold; color:#f4a300; }
+
+/* DEPOIMENTOS */
+.depoimentos { text-align:center; margin:50px 0; }
+.depoimento-texto { font-size:1.2em; color:#333; font-style:italic; }
+
+/* FAQ */
+.faq-item { border-bottom:1px solid #ddd; margin-bottom:10px; }
+.faq-pergunta {
+  cursor:pointer; padding:15px; position:relative; font-weight:bold;
+}
+.faq-pergunta::after { content:'+'; position:absolute; right:20px; }
+.faq-item.active .faq-pergunta::after { content:'-'; }
+.faq-resposta {
+  max-height:0; overflow:hidden; padding:0 15px;
+  transition: max-height .4s ease, padding .4s ease;
+}
+.faq-item.active .faq-resposta {
+  max-height:200px; padding:10px 15px 15px;
+}
+
+/* WHATSAPP FLUTUANTE */
+.whatsapp-float {
+  position:fixed; bottom:20px; right:20px;
+  width:60px; height:60px; z-index:9999;
+  animation: bounce 2s infinite;
+}
+.whatsapp-float img {
+  width:100%; height:100%; border-radius:50%;
+  box-shadow:0 4px 12px rgba(0,0,0,0.2);
+}
+
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
+}
+
+/* FADE-IN */
+.fade-in {
+  opacity:0; transform:translateY(20px);
+  transition: all .6s ease-out;
+}
+.fade-in.active {
+  opacity:1; transform:translateY(0);
+}
+
+/* RESPONSIVO */
+@media (max-width:900px) {
+  .hero { flex-direction:column; text-align:center; }
+  .hero-content, .hero-image { max-width:100%; }
+}
